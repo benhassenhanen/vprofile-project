@@ -1,24 +1,22 @@
-pipeline {
+pipeline {                                // 1: opens pipeline
     agent any
     tools {
         maven "MAVEN3.9"
         jdk "JDK17"
     }
-    
     environment {
         SNAP_REPO = 'vprofile-snapshot'
-		NEXUS_USER = 'admin'
-		NEXUS_PASS = 'admin123'
-		RELEASE_REPO = 'vprofile-release'
-		CENTRAL_REPO = 'vpro-maven-central'
-		NEXUSIP = '172.31.17.187'
-		NEXUSPORT = '8081'
-		NEXUS_GRP_REPO = 'vro-maven-group'
+        NEXUS_USER = 'admin'
+        NEXUS_PASS = 'admin123'
+        RELEASE_REPO = 'vprofile-release'
+        CENTRAL_REPO = 'vpro-maven-central'
+        NEXUSIP = '172.31.17.187'
+        NEXUSPORT = '8081'
+        NEXUS_GRP_REPO = 'vro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
     }
-
-    stages {
-        stage('Build') {
+    stages {                             // 2: opens stages
+        stage('Build') {                 // 3: opens stage Build
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
             }
@@ -26,20 +24,20 @@ pipeline {
                 success {
                     echo "Now Archiving."
                     archiveArtifacts artifacts: '**/*.war'
-                       }
                 }
-        }
-        stage('Test'){
+            }                            // closes post
+        }                                // closes Build
+
+        stage('Test') {
             steps {
                 sh 'mvn -s settings.xml test'
             }
-
         }
 
-        stage('Checkstyle Analysis'){
+        stage('Checkstyle Analysis') {
             steps {
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
-    }
-}
+    }                                    // closes stages
+}                                        // closes pipeline
