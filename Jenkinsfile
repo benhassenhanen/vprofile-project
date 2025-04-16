@@ -90,4 +90,3 @@ pipeline {                                // 1: opens pipeline
         }
     }
 }
-
