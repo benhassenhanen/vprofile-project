@@ -66,6 +66,7 @@ pipeline {                                // 1: opens pipeline
                     waitForQualityGate abortPipeline: true
                 }
             }
+            
         }
 
         
